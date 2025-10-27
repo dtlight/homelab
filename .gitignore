@@ -1,0 +1,66 @@
+# Golang build outputs, binaries and dependencies
+/bin/
+/build/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go vendor directory (enable if you vendor dependencies)
+/vendor/
+
+# Go modules
+/go.sum
+/go.mod
+
+# IDE/editor settings (example for Goland, VSCode, and others)
+*.swp
+.idea/
+*.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Kubernetes
+*.kubeconfig
+*.kube/
+kubeconfig.yaml
+kubeconfig.yml
+*.minikube/
+*.kind/
+
+# temp manifests
+*.env.yaml
+*.env.yml
+
+# Ignore generic environment variables files
+.env
+.env.*
+.envrc
+*.envrc
+
+# Secrets or sensitive config
+*secret*
+*password*
+*key*
+.pem
+
+# System and OS files
+.DS_Store
+Thumbs.db
+._*
+
+# Logs
+*.log
+
+# Ignore coverage reports
+coverage.*
+*.coverprofile
+*.cov
+
+# Ignore test results
+*.result
+*.testresult
