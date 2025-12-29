@@ -1,6 +1,8 @@
 
 # Installing Kubernetes with kubeadm 
 
+If it interests you, I wrote [a blog](https://davids-lab.com/blogs/control-plane-setup/) about how I went about getting kubernetes installed which restulted with writing the `install-k8s.sh` script.
+
 ## Features
 **What works:**
 * CNI Choice: Flannel (simple) or Cilium (advanced networking)
