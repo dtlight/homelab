@@ -1,7 +1,7 @@
 
 # Installing Kubernetes with kubeadm 
 
-If it interests you, I wrote [a blog](https://davids-lab.com/blogs/control-plane-setup/) about how I went about getting kubernetes installed which restulted with writing the `install-k8s.sh` script.
+I wrote [a blog](https://davids-lab.com/blogs/control-plane-setup/) about how I got kubernetes installed on my raspberry pi 5 control plane nodes, which I consequently automated with the [install-k8s.sh script](install-k8s.sh).
 
 ## Features
 **What works:**
