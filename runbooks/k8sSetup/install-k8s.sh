@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Kubernetes Installation Script for Raspberry Pi 5 (Debian/Ubuntu)
+# Author: David Light
 # Supports:
 #   - NODE_TYPE=master        (control plane)
 #   - NODE_TYPE=additional-cp (extra control plane nodes)
