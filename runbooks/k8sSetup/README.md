@@ -22,7 +22,7 @@ export MASTER_IP="192.168.8.205"
 
 # Choose CNI and CIDR
 export CNI="cilium"           # or "flannel" (default)
-export POD_CIDR="192.168.0.0/16"  # Required for Cilium, Flannel expects 10.244.0.0/16 [web:36][web:47]
+export POD_CIDR="192.168.0.0/16"  # Required for Cilium, Flannel expects 10.244.0.0/16 
 
 # choose node type and kubernetes version
 export NODE_TYPE="" # master | additional-cp | worker
@@ -42,15 +42,15 @@ chmod +x install-k8s.sh && ./install-k8s.sh
 ```
 Additional Control Plane Nodes:
 
-Copy `join-controlplane.sh` from master
+scp `join-controlplane.sh` from master
 
-Run `./install-k8s.sh`
+Run `./install-k8s.sh` in sudo mode
 
 #### Worker Nodes:
 
-Copy `join-worker.sh` from master
+scp `join-worker.sh` from master
 
-Run `./install-k8s.sh`
+Run `./install-k8s.sh` in sudo mode
 
 ### 3. Verify Cluster
 ```bash

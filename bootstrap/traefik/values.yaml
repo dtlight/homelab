@@ -1,0 +1,52 @@
+# bootstrap/traefik/values.yaml
+
+deployment:
+  replicas: 1
+
+image:
+  repository: traefik
+  tag: v3.0
+
+providers:
+  kubernetesCRD:
+    enabled: true
+  kubernetesIngress:
+    enabled: true
+
+ports:
+  web:
+    port: 80
+    nodePort: 30080
+    expose:
+      default: true
+  websecure:
+    port: 443
+    nodePort: 30443
+    expose:
+      default: true
+
+service:
+  type: NodePort
+
+api:
+  dashboard: true
+  insecure: true
+
+ingressRoute:
+  dashboard:
+    enabled: true
+
+logs:
+  general:
+    level: INFO
+
+accessLogs:
+  enabled: true
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
