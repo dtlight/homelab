@@ -36,8 +36,12 @@ homelab/
 │   ├── traefik/
 │   │   ├── values.yaml
 │   │   └── install.sh
-│   └── argocd/
-│       └── install.sh
+│   ├── argocd/
+│   │   └── install.sh
+│   │
+│   └── k8s/
+|       ├── CHANGELOG.md
+│       └── install-k8s.sh
 │
 ├── infrastructure/
 │   ├── traefik/
