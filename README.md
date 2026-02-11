@@ -32,13 +32,14 @@ All necessary scripts or manifests are stored under k8sSetup or manifests. If yo
 ```
 homelab/
 ├── README.md
+├── argocd
+│   ├── argocd-ingressroute.yaml
+│   ├── argocd-values.yaml
+│   └── apps
+|       ├── argocd-ingress.yaml
+│       └── traefik.yaml
+|
 ├── bootstrap/
-│   ├── traefik/
-│   │   ├── values.yaml
-│   │   └── install.sh
-│   ├── argocd/
-│   │   └── install.sh
-│   │
 │   └── k8s/
 |       ├── CHANGELOG.md
 │       └── install-k8s.sh
