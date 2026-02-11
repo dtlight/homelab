@@ -9,15 +9,7 @@ spec:
   routes:
     - kind: Rule
       match: Host(`argocd.davids-lab.com`)
-      priority: 10
       services:
         - name: argocd-server
           port: 80
-    - kind: Rule
-      match: Host(`argocd.davids-lab.com`) && HeadersRegexp(`Content-Type`, `^application/grpc`)
-      priority: 11
-      services:
-        - name: argocd-server
-          port: 80
-          scheme: h2c
   tls: {}
