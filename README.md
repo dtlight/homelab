@@ -18,14 +18,82 @@ I have created two namespaced environments, dev and prod. No pod in either envir
 
 | Node / Type | RAM Allocatable | Pod Capacity | Example Workloads |
 |-----------|-----------------|--------------|------------------|
-| **16GB** / CP1 | ~14GB | 50-80 pods | Etcd, Prometheus |
+| **16GB** / CP1 | ~14GB | 50-80 pods | Etcd, Prometheus, Traefik, Argo |
 | **16GB** / CP2 | ~14GB | 50-80 pods | Same as CP1 |
 | **16GB** / CP3 | ~14GB | 50-80 pods | Same as CP1 |
 | **8GB** / Worker 1 (arm) | 6GB | 20-40 pods | Pi-hole, Home Assistant monitoring agents, lightweight apps|
 | **36GB** / Worker 2 (x86)| 36GB | 100-200 pods  | StatefulSets, Postgresql, heavy services|
 
-# Setting Up
+## Setting Up
 All necessary scripts or manifests are stored under k8sSetup or manifests. If you want to install kubernetes on your own raspberry pi cluster I have a set of instructions in [this readme](./runbooks/k8sSetup/README.md)
+
+## Home Lab structure
+
+```
+homelab/
+├── README.md
+├── argocd
+│   ├── argocd-ingressroute.yaml
+│   ├── argocd-values.yaml
+│   └── apps
+|       ├── argocd-ingress.yaml
+│       └── traefik.yaml
+|
+├── bootstrap/
+│   └── k8s/
+|       ├── CHANGELOG.md
+│       └── install-k8s.sh
+│
+├── infrastructure/
+│   ├── traefik/
+│   │   ├── ingressroutes/
+│   │   │   └── dashboard.yaml
+│   │   └── middlewares/
+│   │       └── redirect-https.yaml
+│   │
+│   └── certs/
+├── apps/
+│   ├── argocd/
+│   │   └── ingressroute.yaml
+│   │
+│   ├── demo/
+│   │
+│   └── homeassistant/
+│       │
+│       ├── base/ #ie env agnostic
+│       │   ├── deployment.yaml
+│       │   ├── service.yaml
+│       │   ├── pvc.yaml
+│       │   └── ingressroute.yaml
+│       │
+│       ├── overlays/ #ns, resource tuning, env domain names etc
+│       │   ├── test/
+│       │   │   ├── kustomization.yaml
+│       │   │   └── patch-resources.yaml
+│       │   └── prod/
+│       │       ├── kustomization.yaml
+│       │       └── patch-resources.yaml
+│       │
+│       └── README.md
+├── gitops/
+│   ├── applications/
+│   │   ├── infrastructure.yaml
+│   │   └── apps.yaml
+│   │
+│   └── app-of-apps.yaml
+│
+└── clusters/
+    └── homelab/
+        ├── kustomization.yaml
+        └── namespace.yaml
+```
+
+I've chosen this layout to keep it Argo CD–friendly:
+* app ownership clear
+* environments isolated
+* scales to many apps
+
+I've also divided the more stable, rarely changing and cluster/platform level things into `bootstrap` whilst using `gitops` for the more frequently changing things that enable declartive version controlled deployments like argocd, helm, kustomize.
 
 <!-- 
 ## Home Network Layout

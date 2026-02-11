@@ -63,6 +63,49 @@ env_check() {
     fi
 }
 
+##########################
+# Kube-VIP Configuration #
+##########################
+
+setup_kube_vip_network() {
+  local NODE_TYPE="$1"
+  if [[ "$NODE_TYPE" == "worker" ]]; then
+    echo "Skipping kube-vip setup for worker node"
+    return 0
+  fi
+
+  VIP="${VIP:-192.168.8.205}"
+  GATEWAY="${GATEWAY:-192.168.8.1}"
+  INTERFACE="${INTERFACE:-eth0}"
+  KVVERSION="${KVVERSION:-v1.0.2}"
+
+  NODE_IP=$(hostname -I | awk '{print $1}')
+
+  sudo nmcli connection modify "Wired connection 1" \
+    ipv4.addresses "${NODE_IP}/24,${VIP}/32" \
+    ipv4.gateway "${GATEWAY}" \
+    ipv4.method manual \
+    connection.autoconnect yes
+
+  sudo nmcli connection down "Wired connection 1"
+  sudo nmcli connection up "Wired connection 1"
+
+  sudo mkdir -p /etc/kubernetes/manifests
+
+  # NO alias, call ctr directly
+  sudo ctr image pull ghcr.io/kube-vip/kube-vip:${KVVERSION}
+
+  sudo ctr run --rm --net-host ghcr.io/kube-vip/kube-vip:${KVVERSION} vip /kube-vip manifest pod \
+    --interface "${INTERFACE}" \
+    --address "${VIP}" \
+    --controlplane \
+    --services \
+    --arp \
+    --leaderElection \
+    | sudo tee /etc/kubernetes/manifests/kube-vip.yaml
+}
+
+
 
 ##########################
 # OS / Distro detection #
@@ -332,6 +375,9 @@ main() {
     install_prerequisites
     install_containerd
     install_kubernetes
+
+    setup_kube_vip_network "${NODE_TYPE}"
+    sudo systemctl restart kubelet
 
     case "${NODE_TYPE}" in
         master) setup_master ;;
