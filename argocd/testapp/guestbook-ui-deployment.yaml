@@ -16,5 +16,6 @@ spec:
       containers:
         - image: gcr.io/google-samples/gb-frontend:v5
           name: guestbook-ui
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
